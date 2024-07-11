@@ -1,0 +1,73 @@
+---
+version: "2.1"
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server-compose
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=ill0Wr@n #optional
+      - SUDO_PASSWORD=ill0Wr@n #optional
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - code-server-data:/config
+    expose:
+            - "8443"
+    network_mode: "nginx-proxy-manager_default" 
+    restart: unless-stopped
+
+  filebrowser:
+    image: filebrowser/filebrowser:s6
+    container_name: filebrowser
+    environment:
+      - PUID=0
+      - PGID=0
+    volumes:
+      - /:/srv
+      - /root/filebrowser/filebrowser.db:/database/filebrowser.db
+      - /root/filebrowser/settings.json:/config/settings.json
+    expose:
+      - 80
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+    volumes:
+      - /root/qbittorrent/config:/config
+      - /root/qbittorrent/downloads:/downloads
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+    expose:
+      - 8080
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+volumes:
+  code-server-data:
+networks:
+  proxy:
+    name: self-host-proxy
+    driver: bridge
