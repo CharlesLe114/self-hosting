@@ -15,8 +15,9 @@ services:
       - code-server-data:/config
     expose:
             - "8443"
-    network_mode: "self-host-proxy" 
     restart: unless-stopped
+    networks:
+      - proxy
 
   filebrowser:
     image: filebrowser/filebrowser:s6
@@ -64,9 +65,12 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy
 
 volumes:
   code-server-data:
+    external: true
 networks:
   proxy:
     name: self-host-proxy
