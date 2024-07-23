@@ -15,7 +15,9 @@ services:
       - code-server-data:/config
     expose:
             - "8443"
-    network_mode: "nginx-proxy-manager_default" 
+    # network_mode: "nginx-proxy-manager_default" 
+    networks:
+      - proxy
     restart: unless-stopped
 
   filebrowser:
@@ -64,6 +66,8 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy
 
 volumes:
   code-server-data:
