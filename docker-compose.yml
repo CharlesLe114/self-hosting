@@ -15,8 +15,7 @@ services:
       - code-server-data:/config
     expose:
             - "8443"
-    networks:
-      - proxy
+    network_mode: "proxy" 
     restart: unless-stopped
 
   filebrowser:
@@ -65,8 +64,6 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
-    networks:
-      - proxy
 
 volumes:
   code-server-data:
