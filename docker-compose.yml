@@ -15,7 +15,6 @@ services:
       - code-server-data:/config
     expose:
             - "8443"
-    # network_mode: "nginx-proxy-manager_default" 
     networks:
       - proxy
     restart: unless-stopped
