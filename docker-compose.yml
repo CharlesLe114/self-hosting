@@ -15,7 +15,7 @@ services:
       - code-server-data:/config
     expose:
             - "8443"
-    network_mode: "proxy" 
+    network_mode: "self-host-proxy" 
     restart: unless-stopped
 
   filebrowser:
