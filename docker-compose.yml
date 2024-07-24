@@ -27,8 +27,8 @@ services:
       - PGID=0
     volumes:
       - /:/srv
-      - /root/filebrowser/filebrowser.db:/database/filebrowser.db
-      - /root/filebrowser/settings.json:/config/settings.json
+      - ./filebrowser/filebrowser.db:/database/filebrowser.db
+      - ./filebrowser/settings.json:/config/settings.json
     expose:
       - 80
     restart: unless-stopped

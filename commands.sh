@@ -25,3 +25,18 @@ ssh newusername@your_server_ip
 # Disable Password Authentication (Optional but Recommended):
 
 # Setup SSH for new user
+
+# Copy code-server-data from old server 
+docker volume ls 
+docker inspect volume_name | grep Mountpoint
+
+### zip into tar - this is optional, due to VPS free storage #######
+sudo tar -cvf volume1_data.tar -C /var/lib/docker/volumes/volume_name/_data .
+nohup rsync volume1_data.tar user@newserver:/path/to/directory
+docker volume create volume_name
+sudo tar -xvf /path/to/directory/volume1_data.tar -C /var/lib/docker/volumes/volume_name/_data
+
+#### if not using zip #####
+nohup rsync mountpoint user@newserver:/path/to/directory
+docker volume create volume_name
+mv /path/to/directory /var/lib/docker/volumes/volume_name/_data
