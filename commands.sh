@@ -1,6 +1,7 @@
 # https://monovm.com/blog/how-to-setup-vps-for-beginners/
 # Create new user
 sudo adduser newusername
+sudo passwd username
 
 # Grant sudo
 sudo usermod -aG sudo newusername
