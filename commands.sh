@@ -1,4 +1,8 @@
 # https://monovm.com/blog/how-to-setup-vps-for-beginners/
+# yum repos mirror to vault sed
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
 # Create new user
 sudo adduser newusername
 sudo passwd username
